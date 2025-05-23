@@ -21,12 +21,15 @@ def ensure_nltk_resources():
         try:
             nltk.data.find(resource_path)
             logger.debug(f"Recurso NLTK '{resource_id}' já está presente.")
-        except nltk.downloader.DownloadError:
+        except LookupError: # Alterado de nltk.downloader.DownloadError
             logger.info(f"Recurso NLTK '{resource_id}' não encontrado. Baixando...")
-            nltk.download(resource_id, quiet=True)
-            logger.info(f"Recurso NLTK '{resource_id}' baixado com sucesso.")
-        except Exception as e:
-            logger.error(f"Erro ao verificar/baixar recurso NLTK '{resource_id}': {e}")
+            try:
+                nltk.download(resource_id, quiet=True)
+                logger.info(f"Recurso NLTK '{resource_id}' baixado com sucesso.")
+            except Exception as e: # Captura qualquer erro durante o download
+                logger.error(f"Erro ao baixar recurso NLTK '{resource_id}': {e}")
+        except Exception as e: # Captura outros erros inesperados ao verificar o recurso
+            logger.error(f"Erro ao verificar recurso NLTK '{resource_id}': {e}")
 
 ensure_nltk_resources()
 
