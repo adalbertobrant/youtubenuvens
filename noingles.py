@@ -88,7 +88,7 @@ def get_latest_channel_videos(channel_url, num_videos=1):
         'playlistend': num_videos,
         'dump_single_json': True,
         'nocheckcertificate': True,
-        'geo_bypass_country': 'BR', # Adicione esta linha
+        'geo_bypass_country': 'BR', # Adicionado
     }
     videos = []
     channel_title_from_playlist = None
@@ -162,14 +162,14 @@ def get_transcript_with_yt_dlp(video_id, preferred_lang='pt'):
     ydl_opts = {
         'writesubtitles': True,
         'writeautomaticsub': True,
-        'subtitleslangs': [preferred_lang, 'en'], # Tenta pt, depois en como fallback
+        'subtitleslangs': [preferred_lang, 'en'],
         'subtitlesformat': 'vtt/srv3/best',
         'skip_download': True,
         'quiet': True,
         'nocheckcertificate': True,
         'logtostderr': False,
         'outtmpl': subtitle_output_template,
-        'geo_bypass_country': 'BR', # Adicione esta linha
+        'geo_bypass_country': 'BR', # Adicionado
     }
 
     original_text = ""
@@ -316,14 +316,17 @@ def process_channel(channel_url):
 
             logger.info(f"Processando vídeo: {video_title} ({video_id})")
 
-            video_info_opts = {'quiet': True, 'nocheckcertificate': True, 'geo_bypass_country': 'BR', # Adicione esta linha}
-            with YoutubeDL(video_info_opts) as ydl_vid:
-                info = ydl_vid.extract_info(video_url_yt, download=False)                  
+            # Configuração para obter metadados do vídeo, com geo_bypass_country
+            video_info_opts = {
+                'quiet': True,
+                'nocheckcertificate': True,
+                'geo_bypass_country': 'BR', # Adicionado e corrigido
+            }
             publish_date_final = None
             views_final = None
             
             try:
-                with YoutubeDL(video_info_opts) as ydl_vid:
+                with YoutubeDL(video_info_opts) as ydl_vid: # Corrigido aqui
                     info = ydl_vid.extract_info(video_url_yt, download=False)
                     publish_date_str = info.get('upload_date') # YYYYMMDD
                     if publish_date_str:
