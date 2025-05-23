@@ -101,6 +101,7 @@ def get_channel_banner_url(channel_youtube_url):
         'dump_single_json': True,
         'playlist_items': '0',
         'nocheckcertificate': True,
+        'geo_bypass_country': 'BR', # Adicione esta linha
     }
     try:
         with YoutubeDL(ydl_opts) as ydl:
