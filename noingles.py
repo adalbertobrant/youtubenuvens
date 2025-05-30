@@ -162,7 +162,7 @@ def get_transcript_with_yt_dlp(video_id, preferred_lang='pt'):
     ydl_opts = {
         'writesubtitles': True,
         'writeautomaticsub': True,
-        'subtitleslangs': [preferred_lang, 'en'],
+        'subtitleslangs': [preferred_lang, 'pt-BR'],
         'subtitlesformat': 'vtt/srv3/best',
         'skip_download': True,
         'quiet': True,
